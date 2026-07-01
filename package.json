@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
@@ -22,6 +26,20 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "nodemon": "^3.1.14",
     "vite": "^8.0.12"
-  }
+  },
+  "description": "PROYECTO SOBRE ESTADISTICAS DE ACCIDENTABILIDAD EN MINERIA\r Servidor RENDER\r Frame React vite\r Deploy Vercel\r MongoAtlas\r Github https://github.com/Etiann20/proyecto-bdsnosql\r Jira para Met Scrum\r aa",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Etiann20/proyecto-bdsnosql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Etiann20/proyecto-bdsnosql/issues"
+  },
+  "homepage": "https://github.com/Etiann20/proyecto-bdsnosql#readme"
 }
