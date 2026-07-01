@@ -1,0 +1,57 @@
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:40px;
+
+}
+
+.header h2{
+
+    font-size:34px;
+
+    margin-bottom:5px;
+
+}
+
+.header span{
+
+    color:#94A3B8;
+
+}
+
+.header-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.user-circle{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:#2563EB;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    font-size:20px;
+
+}

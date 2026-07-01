@@ -1,0 +1,178 @@
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+
+    position:fixed;
+    left:0;
+    top:0;
+
+    background:#111827;
+
+    display:flex;
+    flex-direction:column;
+
+    border-right:1px solid #1F2937;
+}
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo{
+
+    display:flex;
+    align-items:center;
+
+    gap:15px;
+
+    padding:30px 25px;
+
+    border-bottom:1px solid #1F2937;
+
+}
+
+.logo-icon{
+
+    font-size:34px;
+
+    color:#3B82F6;
+
+}
+
+.logo h2{
+
+    color:white;
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.logo span{
+
+    color:#9CA3AF;
+
+    font-size:13px;
+
+}
+
+/* ===========================
+   MENU
+=========================== */
+
+.sidebar nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    margin-top:20px;
+
+}
+
+.sidebar nav a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    color:#D1D5DB;
+
+    text-decoration:none;
+
+    padding:16px 25px;
+
+    transition:.25s;
+
+    font-size:15px;
+
+}
+
+/* Hover */
+
+.sidebar nav a:hover{
+
+    background:#1E3A8A;
+
+    color:white;
+
+    padding-left:32px;
+
+}
+
+/* Iconos */
+
+.sidebar nav a svg{
+
+    font-size:20px;
+
+}
+
+/*========================*/
+
+.sidebar-footer{
+
+    margin-top:auto;
+
+    padding:25px;
+
+    border-top:1px solid #1F2937;
+
+}
+
+.sidebar-footer h4{
+
+    margin-bottom:15px;
+
+}
+
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:10px;
+
+    color:#D1D5DB;
+
+}
+
+.sidebar-footer small{
+
+    color:#22C55E;
+
+}
+
+.sidebar-footer p{
+
+    margin-top:15px;
+
+    color:#6B7280;
+
+    font-size:13px;
+
+}
+
+/*========================*/
+
+.sidebar nav a.active{
+
+    background:#2563EB;
+
+    color:white;
+
+    border-radius:10px;
+
+    margin:0 10px;
+
+}
