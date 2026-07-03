@@ -2,34 +2,25 @@ import mongoose from "mongoose";
 
 const bitacoraSchema = new mongoose.Schema(
   {
-    incidente: {
+    accion: {
+      type: String,
+      required: true,
+    },
+
+    descripcion: {
+      type: String,
+      required: true,
+    },
+
+    usuario: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Incidente",
+      ref: "Usuario",
       required: true,
-    },
-
-    estado: {
-      type: String,
-      enum: ["Pendiente", "En proceso", "Resuelto"],
-      required: true,
-    },
-
-    accionesCorrectivas: [
-      {
-        type: String,
-      },
-    ],
-
-    tiempo: {
-      fechaInicio: Date,
-      fechaFin: Date,
-    },
-
-    informe: {
-      type: String,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.model("Bitacora", bitacoraSchema);

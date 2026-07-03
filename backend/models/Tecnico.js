@@ -7,6 +7,7 @@ const tecnicoSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
     correo: {
       type: String,
       required: true,
@@ -14,8 +15,30 @@ const tecnicoSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+
+    especialidad: {
+      type: String,
+      required: true,
+    },
+
+    telefono: {
+      type: String,
+      trim: true,
+    },
+
+    estado: {
+      type: String,
+      enum: [
+        "Disponible",
+        "Ocupado",
+        "Ausente",
+      ],
+      default: "Disponible",
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.model("Tecnico", tecnicoSchema);

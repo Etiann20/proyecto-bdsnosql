@@ -2,32 +2,16 @@ import mongoose from "mongoose";
 
 const incidenteSchema = new mongoose.Schema(
   {
-    usuario: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Usuario",
-      required: true,
-    },
-
-    tecnico: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Tecnico",
-      required: true,
-    },
-
-    equipo: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Equipo",
-      required: true,
-    },
-
-    tipo: {
+    titulo: {
       type: String,
       required: true,
+      trim: true,
     },
 
     descripcion: {
       type: String,
       required: true,
+      trim: true,
     },
 
     prioridad: {
@@ -38,16 +22,50 @@ const incidenteSchema = new mongoose.Schema(
 
     estado: {
       type: String,
-      enum: ["Pendiente", "En proceso", "Resuelto"],
+      enum: [
+        "Pendiente",
+        "En Proceso",
+        "Resuelto",
+        "Cerrado",
+      ],
       default: "Pendiente",
     },
 
-    fechaReporte: {
-      type: Date,
-      default: Date.now,
+    usuario: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Usuario",
+      required: true,
     },
+
+    tecnico: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tecnico",
+      default: null,
+    },
+
+    equipo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Equipo",
+      required: true,
+    },
+
+    evidencias: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Evidencia",
+      },
+    ],
+
+    bitacoras: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bitacora",
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.model("Incidente", incidenteSchema);

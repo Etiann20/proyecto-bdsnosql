@@ -2,25 +2,28 @@ import mongoose from "mongoose";
 
 const evidenciaSchema = new mongoose.Schema(
   {
-    incidente: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Incidente",
+    nombreArchivo: {
+      type: String,
       required: true,
     },
 
-    archivos: [
-      {
-        nombreArchivo: String,
-        tipoArchivo: String,
-        rutaArchivo: String,
-        fechaSubida: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
+    tipoArchivo: {
+      type: String,
+      required: true,
+    },
+
+    url: {
+      type: String,
+      required: true,
+    },
+
+    descripcion: {
+      type: String,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.model("Evidencia", evidenciaSchema);

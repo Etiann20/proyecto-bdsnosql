@@ -1,101 +1,127 @@
 import Usuario from "../models/Usuario.js";
 
-// Obtener todos los usuarios
+// GET /api/usuarios
 export const obtenerUsuarios = async (req, res) => {
+
     try {
+
         const usuarios = await Usuario.find();
+
         res.status(200).json(usuarios);
+
     } catch (error) {
+
         res.status(500).json({
-            mensaje: "Error al obtener los usuarios",
+            mensaje: "Error al obtener usuarios",
             error: error.message
         });
+
     }
+
 };
 
-// Obtener un usuario por ID
-export const obtenerUsuario = async (req, res) => {
+// GET /api/usuarios/:id
+export const obtenerUsuarioPorId = async (req, res) => {
+
     try {
+
         const usuario = await Usuario.findById(req.params.id);
 
         if (!usuario) {
+
             return res.status(404).json({
                 mensaje: "Usuario no encontrado"
             });
+
         }
 
         res.status(200).json(usuario);
 
     } catch (error) {
+
         res.status(500).json({
-            mensaje: "Error al obtener el usuario",
+            mensaje: "Error al buscar usuario",
             error: error.message
         });
+
     }
+
 };
 
-// Crear usuario
+// POST
 export const crearUsuario = async (req, res) => {
+
     try {
 
-        const nuevoUsuario = new Usuario(req.body);
+        const usuario = new Usuario(req.body);
 
-        const usuarioGuardado = await nuevoUsuario.save();
+        await usuario.save();
 
-        res.status(201).json(usuarioGuardado);
+        res.status(201).json(usuario);
 
     } catch (error) {
 
         res.status(400).json({
-            mensaje: "Error al crear el usuario",
+            mensaje: "No fue posible crear el usuario",
             error: error.message
         });
 
     }
+
 };
 
-// Actualizar usuario
+// PUT
 export const actualizarUsuario = async (req, res) => {
+
     try {
 
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(
+        const usuario = await Usuario.findByIdAndUpdate(
+
             req.params.id,
+
             req.body,
+
             {
                 new: true,
                 runValidators: true
             }
+
         );
 
-        if (!usuarioActualizado) {
+        if (!usuario) {
+
             return res.status(404).json({
                 mensaje: "Usuario no encontrado"
             });
+
         }
 
-        res.status(200).json(usuarioActualizado);
+        res.status(200).json(usuario);
 
     } catch (error) {
 
         res.status(400).json({
-            mensaje: "Error al actualizar el usuario",
+            mensaje: "No fue posible actualizar",
             error: error.message
         });
 
     }
+
 };
 
-// Eliminar usuario
+// DELETE
 export const eliminarUsuario = async (req, res) => {
 
     try {
 
-        const usuarioEliminado = await Usuario.findByIdAndDelete(req.params.id);
+        const usuario = await Usuario.findByIdAndDelete(req.params.id);
 
-        if (!usuarioEliminado) {
+        if (!usuario) {
+
             return res.status(404).json({
                 mensaje: "Usuario no encontrado"
             });
+
         }
 
         res.status(200).json({
@@ -105,7 +131,7 @@ export const eliminarUsuario = async (req, res) => {
     } catch (error) {
 
         res.status(500).json({
-            mensaje: "Error al eliminar el usuario",
+            mensaje: "Error al eliminar",
             error: error.message
         });
 
