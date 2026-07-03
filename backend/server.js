@@ -2,10 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import usuarioRoutes from "./routes/usuarioRoutes.js";
 
 dotenv.config();
-
-console.log("URI:", process.env.MONGODB_URI);
 
 connectDB();
 
@@ -13,6 +12,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Rutas
+app.use("/api/usuarios", usuarioRoutes);
 
 app.get("/", (req, res) => {
     res.send("Servidor funcionando correctamente");

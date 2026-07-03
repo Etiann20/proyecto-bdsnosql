@@ -1,0 +1,97 @@
+.usuarios-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+.btn-primary{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.btn-primary:hover{
+
+    background:#1d4ed8;
+
+}
+
+.tabla-usuarios{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.tabla-usuarios th{
+
+    background:#1e293b;
+
+    color:white;
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+.tabla-usuarios td{
+
+    padding:15px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.tabla-usuarios tr:hover{
+
+    background:#f8fafc;
+
+}
+
+.tabla-usuarios button{
+
+    margin-right:8px;
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
