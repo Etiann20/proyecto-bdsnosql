@@ -148,6 +148,7 @@ function FormularioTecnico({
                     name="telefono"
                     value={formulario.telefono}
                     onChange={handleChange}
+                    placeholder="Ej. 56987654321 (sin +56)"
                 />
 
             </div>

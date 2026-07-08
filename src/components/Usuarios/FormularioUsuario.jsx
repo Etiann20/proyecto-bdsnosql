@@ -9,9 +9,15 @@ function FormularioUsuario({
 }) {
 
     const [formulario, setFormulario] = useState({
+
         nombre: "",
+
         correo: "",
+
+        contrasena: "",
+
         rol: "Administrador"
+
     });
 
     useEffect(() => {
@@ -26,6 +32,8 @@ function FormularioUsuario({
 
                 correo: usuarioEditando.correo,
 
+                contrasena: "",
+
                 rol: usuarioEditando.rol
 
             });
@@ -37,6 +45,8 @@ function FormularioUsuario({
                 nombre: "",
 
                 correo: "",
+
+                contrasena: "",
 
                 rol: "Administrador"
 
@@ -62,17 +72,15 @@ function FormularioUsuario({
 
         e.preventDefault();
 
-        onGuardar(formulario);
+        const datos = { ...formulario };
 
-        setFormulario({
+        if (usuarioEditando && datos.contrasena.trim() === "") {
 
-            nombre: "",
+            delete datos.contrasena;
 
-            correo: "",
+        }
 
-            rol: "Administrador"
-
-        });
+        onGuardar(datos);
 
     };
 
@@ -92,7 +100,6 @@ function FormularioUsuario({
                     name="nombre"
                     value={formulario.nombre}
                     onChange={handleChange}
-                    placeholder="Ingrese el nombre"
                     required
                 />
 
@@ -107,8 +114,30 @@ function FormularioUsuario({
                     name="correo"
                     value={formulario.correo}
                     onChange={handleChange}
-                    placeholder="Ingrese el correo"
                     required
+                />
+
+            </div>
+
+            <div className="form-group">
+
+                <label>
+
+                    Contraseña
+
+                </label>
+
+                <input
+                    type="password"
+                    name="contrasena"
+                    value={formulario.contrasena}
+                    onChange={handleChange}
+                    placeholder={
+                        usuarioEditando
+                            ? "Dejar vacío para mantener"
+                            : "Ingrese contraseña"
+                    }
+                    required={!usuarioEditando}
                 />
 
             </div>
@@ -124,15 +153,21 @@ function FormularioUsuario({
                 >
 
                     <option value="Administrador">
+
                         Administrador
+
                     </option>
 
                     <option value="Supervisor">
+
                         Supervisor
+
                     </option>
 
                     <option value="Analista">
+
                         Analista
+
                     </option>
 
                 </select>
@@ -140,8 +175,8 @@ function FormularioUsuario({
             </div>
 
             <button
-                type="submit"
                 className="btn-guardar"
+                type="submit"
             >
 
                 {
