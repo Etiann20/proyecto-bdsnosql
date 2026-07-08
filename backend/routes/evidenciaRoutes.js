@@ -1,4 +1,13 @@
 import express from "express";
+import auth from "../middleware/auth.js";
+import authorize from "../middleware/authorize.js";
+import validarCampos from "../middleware/validarCampos.js";
+
+import {
+    validarCrearEvidencia,
+    validarActualizarEvidencia,
+    validarIdEvidencia
+} from "../validators/evidenciaValidator.js";
 
 import {
     obtenerEvidencias,
@@ -10,14 +19,14 @@ import {
 
 const router = express.Router();
 
-router.get("/", obtenerEvidencias);
+router.get("/", auth, obtenerEvidencias);
 
-router.get("/:id", obtenerEvidenciaPorId);
+router.get("/:id", auth, validarIdEvidencia, validarCampos, obtenerEvidenciaPorId);
 
-router.post("/", crearEvidencia);
+router.post("/", auth, validarCrearEvidencia, validarCampos, authorize("Administrador", "Supervisor"), crearEvidencia);
 
-router.put("/:id", actualizarEvidencia);
+router.put("/:id", auth, validarIdEvidencia, validarActualizarEvidencia, validarCampos, authorize("Administrador", "Supervisor"), actualizarEvidencia);
 
-router.delete("/:id", eliminarEvidencia);
+router.delete("/:id", auth, validarIdEvidencia, validarCampos, authorize("Administrador"), eliminarEvidencia);
 
 export default router;

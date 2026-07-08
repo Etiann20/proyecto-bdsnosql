@@ -1,11 +1,12 @@
 import Usuario from "../models/Usuario.js";
+import bcrypt from "bcrypt";
 
 // GET /api/usuarios
 export const obtenerUsuarios = async (req, res) => {
 
     try {
 
-        const usuarios = await Usuario.find();
+        const usuarios = await Usuario.find().select("-contrasena"); // Excluir la contraseña de la respuesta
 
         res.status(200).json(usuarios);
 
@@ -24,8 +25,7 @@ export const obtenerUsuarios = async (req, res) => {
 export const obtenerUsuarioPorId = async (req, res) => {
 
     try {
-
-        const usuario = await Usuario.findById(req.params.id);
+        const usuario = await Usuario.findById(req.params.id).select("-contrasena"); // Excluir la contraseña de la respuesta
 
         if (!usuario) {
 
@@ -52,12 +52,22 @@ export const obtenerUsuarioPorId = async (req, res) => {
 export const crearUsuario = async (req, res) => {
 
     try {
+        const {nombre, correo, contrasena, rol} = req.body;
 
-        const usuario = new Usuario(req.body);
+        // Hashear la contraseña
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
 
+        const usuario = new Usuario({
+            nombre,
+            correo,
+            contrasena: hashedPassword,
+            rol
+        });
+        
         await usuario.save();
-
-        res.status(201).json(usuario);
+        const usuarioCreado = await Usuario.findById(usuario._id).select("-contrasena"); // Excluir la contraseña de la respuesta
+        res.status(201).json(usuarioCreado);
 
     } catch (error) {
 
@@ -74,6 +84,9 @@ export const crearUsuario = async (req, res) => {
 export const actualizarUsuario = async (req, res) => {
 
     try {
+        if(req.body.contrasena){
+            req.body.contrasena = await bcrypt.hash(req.body.contrasena,10)
+        }
 
         const usuario = await Usuario.findByIdAndUpdate(
 
@@ -86,7 +99,7 @@ export const actualizarUsuario = async (req, res) => {
                 runValidators: true
             }
 
-        );
+        ).select("-contrasena"); // Excluir la contraseña de la respuesta
 
         if (!usuario) {
 

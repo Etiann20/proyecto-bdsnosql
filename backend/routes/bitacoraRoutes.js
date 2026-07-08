@@ -1,5 +1,12 @@
 import express from "express";
-
+import auth from "../middleware/auth.js";
+import authorize from "../middleware/authorize.js";
+import validarCampos from "../middleware/validarCampos.js";
+import {
+    validarCrearBitacora,
+    validarActualizarBitacora,
+    validarIdBitacora
+} from "../validators/bitacoraValidator.js";
 import {
 
     obtenerBitacoras,
@@ -12,14 +19,14 @@ import {
 
 const router = express.Router();
 
-router.get("/", obtenerBitacoras);
+router.get("/", auth, authorize("Administrador"), obtenerBitacoras);
 
-router.get("/:id", obtenerBitacoraPorId);
+router.get("/:id", auth, validarIdBitacora, validarCampos, authorize("Administrador"), obtenerBitacoraPorId);
 
-router.post("/", crearBitacora);
+router.post("/", auth, validarCrearBitacora, validarCampos, crearBitacora);
 
-router.put("/:id", actualizarBitacora);
+router.put("/:id", auth, validarIdBitacora, validarActualizarBitacora, validarCampos, authorize("Administrador"), actualizarBitacora);
 
-router.delete("/:id", eliminarBitacora);
+router.delete("/:id", auth, validarIdBitacora, validarCampos, authorize("Administrador"), eliminarBitacora);
 
 export default router;

@@ -1,5 +1,12 @@
 import express from "express";
-
+import auth from "../middleware/auth.js";
+import authorize from "../middleware/authorize.js";
+import validarCampos from "../middleware/validarCampos.js";
+import {
+    validarCrearIncidente,
+    validarActualizarIncidente,
+    validarIdIncidente
+} from "../validators/incidenteValidator.js";
 import {
 
     obtenerIncidentes,
@@ -12,14 +19,14 @@ import {
 
 const router = express.Router();
 
-router.get("/", obtenerIncidentes);
+router.get("/", auth, obtenerIncidentes);
 
-router.get("/:id", obtenerIncidentePorId);
+router.get("/:id", auth, validarIdIncidente, validarCampos, obtenerIncidentePorId);
 
-router.post("/", crearIncidente);
+router.post("/", auth, validarCrearIncidente, validarCampos, authorize("Administrador", "Supervisor"), crearIncidente);
 
-router.put("/:id", actualizarIncidente);
+router.put("/:id", auth, validarIdIncidente, validarActualizarIncidente, validarCampos, authorize("Administrador", "Supervisor"), actualizarIncidente);
 
-router.delete("/:id", eliminarIncidente);
+router.delete("/:id", auth, validarIdIncidente, validarCampos, authorize("Administrador"), eliminarIncidente);
 
 export default router;

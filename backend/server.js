@@ -8,6 +8,7 @@ import equipoRoutes from "./routes/equipoRoutes.js";
 import incidenteRoutes from "./routes/incidenteRoutes.js";
 import evidenciaRoutes from "./routes/evidenciaRoutes.js";
 import bitacoraRoutes from "./routes/bitacoraRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor ejecutándose en el puerto ${PORT}`);
 });
+app.use("/api/auth", authRoutes);
 
 app.use("/api/tecnicos", tecnicoRoutes);
 

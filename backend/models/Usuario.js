@@ -14,6 +14,11 @@ const usuarioSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    contrasena: {
+      type: String,
+      required: true,
+      minlength: 8,
+    },
     rol: {
       type: String,
       required: true,

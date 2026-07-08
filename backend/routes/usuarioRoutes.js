@@ -1,5 +1,12 @@
 import express from "express";
-
+import auth from "../middleware/auth.js";
+import authorize from "../middleware/authorize.js";
+import validarCampos from "../middleware/validarCampos.js";
+import {
+    validarCrearUsuario,
+    validarActualizarUsuario,
+    validarIdUsuario
+} from "../validators/usuarioValidator.js";
 import {
 
     obtenerUsuarios,
@@ -16,14 +23,14 @@ import {
 
 const router = express.Router();
 
-router.get("/", obtenerUsuarios);
+router.get("/", auth, authorize("Administrador"), obtenerUsuarios);
 
-router.get("/:id", obtenerUsuarioPorId);
+router.get("/:id", auth, validarIdUsuario, authorize("Administrador"), validarCampos, obtenerUsuarioPorId);
 
-router.post("/", crearUsuario);
+router.post("/", auth, authorize("Administrador"), validarCrearUsuario, validarCampos,crearUsuario);
 
-router.put("/:id", actualizarUsuario);
+router.put("/:id", auth, validarIdUsuario, authorize("Administrador"), validarActualizarUsuario, validarCampos, actualizarUsuario);
 
-router.delete("/:id", eliminarUsuario);
+router.delete("/:id", auth, validarIdUsuario, authorize("Administrador"), validarCampos, eliminarUsuario);
 
 export default router;
