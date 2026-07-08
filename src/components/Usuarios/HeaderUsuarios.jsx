@@ -1,4 +1,4 @@
-function HeaderUsuarios({ abrirModal }) {
+function HeaderUsuarios() {
 
     return (
 
@@ -8,18 +8,9 @@ function HeaderUsuarios({ abrirModal }) {
 
                 <h1>Usuarios</h1>
 
-                <p>
-                    Administración de usuarios del sistema
-                </p>
+                <p>Administración de usuarios del sistema</p>
 
             </div>
-
-            <button
-                className="btn-primary"
-                onClick={abrirModal}
-            >
-                + Nuevo Usuario
-            </button>
 
         </div>
 

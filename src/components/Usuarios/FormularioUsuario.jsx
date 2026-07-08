@@ -1,5 +1,4 @@
 import { useState } from "react";
-import api from "../../services/api";
 
 function FormularioUsuario({ onGuardar }) {
 
@@ -21,22 +20,25 @@ function FormularioUsuario({ onGuardar }) {
     const handleSubmit = (e) => {
 
         e.preventDefault();
-    
+
         onGuardar(formulario);
-    
+
         setFormulario({
             nombre: "",
             correo: "",
             rol: "Administrador"
         });
-    
+
     };
 
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form
+            className="formulario-usuario"
+            onSubmit={handleSubmit}
+        >
 
-            <div>
+            <div className="form-group">
 
                 <label>Nombre</label>
 
@@ -46,13 +48,12 @@ function FormularioUsuario({ onGuardar }) {
                     value={formulario.nombre}
                     onChange={handleChange}
                     placeholder="Ingrese el nombre"
+                    required
                 />
 
             </div>
 
-            <br />
-
-            <div>
+            <div className="form-group">
 
                 <label>Correo</label>
 
@@ -62,13 +63,12 @@ function FormularioUsuario({ onGuardar }) {
                     value={formulario.correo}
                     onChange={handleChange}
                     placeholder="Ingrese el correo"
+                    required
                 />
 
             </div>
 
-            <br />
-
-            <div>
+            <div className="form-group">
 
                 <label>Rol</label>
 
@@ -77,19 +77,27 @@ function FormularioUsuario({ onGuardar }) {
                     value={formulario.rol}
                     onChange={handleChange}
                 >
-                    <option>Administrador</option>
-                    <option>Supervisor</option>
-                    <option>Analista</option>
+                    <option value="Administrador">
+                        Administrador
+                    </option>
+
+                    <option value="Supervisor">
+                        Supervisor
+                    </option>
+
+                    <option value="Analista">
+                        Analista
+                    </option>
+
                 </select>
 
             </div>
 
-            <br />
-
-            <button type="submit">
-
+            <button
+                type="submit"
+                className="btn-guardar"
+            >
                 Guardar Usuario
-
             </button>
 
         </form>
