@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import StatCard from "../components/StatCard";
 import Header from "../components/Header";
+import StatCard from "../components/StatCard";
+import api from "../services/api";
 
 import {
     FiUsers,
@@ -12,6 +14,33 @@ import {
 import "../styles/dashboard.css";
 
 function Home() {
+
+    const [estadisticas, setEstadisticas] = useState({
+        usuarios: 0,
+        tecnicos: 0,
+        equipos: 0,
+        incidentes: 0
+    });
+
+    useEffect(() => {
+        obtenerEstadisticas();
+    }, []);
+
+    const obtenerEstadisticas = async () => {
+
+        try {
+
+            const respuesta = await api.get("/dashboard");
+
+            setEstadisticas(respuesta.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
 
     return (
 
@@ -35,25 +64,25 @@ function Home() {
 
                     <StatCard
                         titulo="Usuarios"
-                        valor="15"
+                        valor={estadisticas.usuarios}
                         icono={<FiUsers />}
                     />
 
                     <StatCard
                         titulo="Técnicos"
-                        valor="8"
+                        valor={estadisticas.tecnicos}
                         icono={<FiTool />}
                     />
 
                     <StatCard
                         titulo="Equipos"
-                        valor="125"
+                        valor={estadisticas.equipos}
                         icono={<FiMonitor />}
                     />
 
                     <StatCard
                         titulo="Incidentes"
-                        valor="42"
+                        valor={estadisticas.incidentes}
                         icono={<FiAlertTriangle />}
                     />
 

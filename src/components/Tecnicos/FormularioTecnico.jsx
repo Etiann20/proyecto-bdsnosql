@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
 
-function FormularioUsuario({
+function FormularioTecnico({
 
     onGuardar,
 
-    usuarioEditando
+    tecnicoEditando
 
 }) {
 
     const [formulario, setFormulario] = useState({
         nombre: "",
         correo: "",
-        rol: "Administrador"
+        especialidad: "",
+        telefono: "",
+        estado: "Disponible"
     });
 
     useEffect(() => {
 
-        if (usuarioEditando) {
+        if (tecnicoEditando) {
 
             setFormulario({
 
-                _id: usuarioEditando._id,
+                _id: tecnicoEditando._id,
 
-                nombre: usuarioEditando.nombre,
+                nombre: tecnicoEditando.nombre,
 
-                correo: usuarioEditando.correo,
+                correo: tecnicoEditando.correo,
 
-                rol: usuarioEditando.rol
+                especialidad: tecnicoEditando.especialidad,
+
+                telefono: tecnicoEditando.telefono,
+
+                estado: tecnicoEditando.estado
 
             });
 
@@ -38,13 +44,17 @@ function FormularioUsuario({
 
                 correo: "",
 
-                rol: "Administrador"
+                especialidad: "",
+
+                telefono: "",
+
+                estado: "Disponible"
 
             });
 
         }
 
-    }, [usuarioEditando]);
+    }, [tecnicoEditando]);
 
     const handleChange = (e) => {
 
@@ -70,7 +80,11 @@ function FormularioUsuario({
 
             correo: "",
 
-            rol: "Administrador"
+            especialidad: "",
+
+            telefono: "",
+
+            estado: "Disponible"
 
         });
 
@@ -92,7 +106,6 @@ function FormularioUsuario({
                     name="nombre"
                     value={formulario.nombre}
                     onChange={handleChange}
-                    placeholder="Ingrese el nombre"
                     required
                 />
 
@@ -107,7 +120,6 @@ function FormularioUsuario({
                     name="correo"
                     value={formulario.correo}
                     onChange={handleChange}
-                    placeholder="Ingrese el correo"
                     required
                 />
 
@@ -115,42 +127,63 @@ function FormularioUsuario({
 
             <div className="form-group">
 
-                <label>Rol</label>
+                <label>Especialidad</label>
+
+                <input
+                    type="text"
+                    name="especialidad"
+                    value={formulario.especialidad}
+                    onChange={handleChange}
+                    required
+                />
+
+            </div>
+
+            <div className="form-group">
+
+                <label>Teléfono</label>
+
+                <input
+                    type="text"
+                    name="telefono"
+                    value={formulario.telefono}
+                    onChange={handleChange}
+                />
+
+            </div>
+
+            <div className="form-group">
+
+                <label>Estado</label>
 
                 <select
-                    name="rol"
-                    value={formulario.rol}
+                    name="estado"
+                    value={formulario.estado}
                     onChange={handleChange}
                 >
 
-                    <option value="Administrador">
-                        Administrador
-                    </option>
+                    <option value="Disponible">Disponible</option>
 
-                    <option value="Supervisor">
-                        Supervisor
-                    </option>
+                    <option value="Ocupado">Ocupado</option>
 
-                    <option value="Analista">
-                        Analista
-                    </option>
+                    <option value="Ausente">Ausente</option>
 
                 </select>
 
             </div>
 
             <button
-                type="submit"
                 className="btn-guardar"
+                type="submit"
             >
 
                 {
 
-                    usuarioEditando
+                    tecnicoEditando
 
-                        ? "Actualizar Usuario"
+                        ? "Actualizar Técnico"
 
-                        : "Guardar Usuario"
+                        : "Guardar Técnico"
 
                 }
 
@@ -162,4 +195,4 @@ function FormularioUsuario({
 
 }
 
-export default FormularioUsuario;
+export default FormularioTecnico;

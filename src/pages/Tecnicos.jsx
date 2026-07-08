@@ -1,12 +1,115 @@
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import api from "../services/api";
 
-function Tecnicos(){
+import HeaderTecnicos from "../components/Tecnicos/HeaderTecnicos";
+import FormularioTecnico from "../components/Tecnicos/FormularioTecnico";
+import TablaTecnicos from "../components/Tecnicos/TablaTecnicos";
 
-    return(
+import "../styles/usuarios.css";
+
+function Tecnicos() {
+
+    const [tecnicos, setTecnicos] = useState([]);
+
+    const [tecnicoEditando, setTecnicoEditando] = useState(null);
+
+    useEffect(() => {
+
+        obtenerTecnicos();
+
+    }, []);
+
+    const obtenerTecnicos = async () => {
+
+        try {
+
+            const respuesta = await api.get("/tecnicos");
+
+            setTecnicos(respuesta.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+    const crearTecnico = async (tecnico) => {
+
+        try {
+
+            await api.post("/tecnicos", tecnico);
+
+            obtenerTecnicos();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("No fue posible crear el técnico.");
+
+        }
+
+    };
+
+    const editarTecnico = async (tecnico) => {
+
+        try {
+
+            await api.put(`/tecnicos/${tecnico._id}`, tecnico);
+
+            obtenerTecnicos();
+
+            setTecnicoEditando(null);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+    const eliminarTecnico = async (id) => {
+
+        if (!window.confirm("¿Eliminar técnico?")) return;
+
+        try {
+
+            await api.delete(`/tecnicos/${id}`);
+
+            obtenerTecnicos();
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+    return (
 
         <Layout>
 
-            <h1>Tecnicos</h1>
+            <HeaderTecnicos />
+
+            <FormularioTecnico
+                onGuardar={
+                    tecnicoEditando
+                        ? editarTecnico
+                        : crearTecnico
+                }
+                tecnicoEditando={tecnicoEditando}
+            />
+
+            <TablaTecnicos
+                tecnicos={tecnicos}
+                onEditar={setTecnicoEditando}
+                onEliminar={eliminarTecnico}
+            />
 
         </Layout>
 
