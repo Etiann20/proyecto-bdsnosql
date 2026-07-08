@@ -19,6 +19,7 @@ const evidenciaSchema = new mongoose.Schema(
 
     descripcion: {
       type: String,
+      required: true
     },
   },
   {

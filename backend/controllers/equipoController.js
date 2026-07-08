@@ -1,4 +1,6 @@
 import Equipo from "../models/Equipo.js";
+import { registrarAuditoria } from "../services/auditoriaService.js";
+
 
 // GET
 export const obtenerEquipos = async (req, res) => {
@@ -54,6 +56,11 @@ export const crearEquipo = async (req, res) => {
         const equipo = new Equipo(req.body);
 
         await equipo.save();
+        await registrarAuditoria(
+            req.usuario.id,
+            "Creación de equipo",
+            `Se ha creado un nuevo equipo con nombre: ${equipo.nombre} (ID: ${equipo._id}).`
+        );
 
         res.status(201).json(equipo);
 
@@ -93,6 +100,12 @@ export const actualizarEquipo = async (req, res) => {
 
         }
 
+        await registrarAuditoria(
+            req.usuario.id,
+            "Actualización de equipo",
+            `Se ha actualizado el equipo con nombre: ${equipo.nombre} (ID: ${equipo._id}).`
+        );
+
         res.json(equipo);
 
     } catch (error) {
@@ -119,6 +132,12 @@ export const eliminarEquipo = async (req, res) => {
             });
 
         }
+
+        await registrarAuditoria(
+            req.usuario.id,
+            "Eliminación de equipo",
+            `Se ha eliminado el equipo con nombre: ${equipo.nombre} (ID: ${equipo._id}).`
+        );
 
         res.json({
             mensaje: "Equipo eliminado correctamente"

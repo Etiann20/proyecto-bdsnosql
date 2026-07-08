@@ -28,9 +28,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor ejecutándose en el puerto ${PORT}`);
-});
+
 app.use("/api/auth", authRoutes);
 
 app.use("/api/tecnicos", tecnicoRoutes);
@@ -40,6 +38,10 @@ app.use("/api/equipos", equipoRoutes);
 app.use("/api/incidentes", incidenteRoutes);
 
 app.use("/api/evidencias", evidenciaRoutes);
+
 app.use("/api/bitacoras", bitacoraRoutes);
 
-app.use("/api/evidencias", evidenciaRoutes);
+
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor ejecutándose en el puerto ${PORT}`);
+});

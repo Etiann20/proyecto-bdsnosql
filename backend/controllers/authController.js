@@ -1,6 +1,7 @@
 import Usuario from '../models/Usuario.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { registrarAuditoria } from '../services/auditoriaService.js';
 
 export const login = async (req, res) => {
     try {
@@ -29,6 +30,13 @@ export const login = async (req, res) => {
             { id: usuario._id, rol: usuario.rol },
             process.env.JWT_SECRET,
             { expiresIn: "4h" }
+        );
+
+        // RegistrarAuditoria
+        await registrarAuditoria(
+            usuario._id,
+            "Inicio de sesión",
+            `El usuario con correo ${usuario.correo} (ID: ${usuario._id}) ha iniciado sesión.`
         );
 
         res.status(200).json({

@@ -1,4 +1,6 @@
 import Evidencia from "../models/Evidencia.js";
+import {registrarAuditoria} from "../services/auditoriaService.js";
+
 
 // GET
 export const obtenerEvidencias = async (req, res) => {
@@ -50,6 +52,11 @@ export const crearEvidencia = async (req, res) => {
         const evidencia = new Evidencia(req.body);
 
         await evidencia.save();
+        await registrarAuditoria(
+            req.usuario.id,
+            "Creación de evidencia",
+            `Se ha creado una nueva evidencia con ID: ${evidencia._id}.`
+        );
 
         res.status(201).json(evidencia);
 
@@ -87,6 +94,12 @@ export const actualizarEvidencia = async (req, res) => {
 
         }
 
+        await registrarAuditoria(
+            req.usuario.id,
+            "Actualización de evidencia",
+            `Se ha actualizado la evidencia con ID: ${evidencia._id}.`
+        );
+
         res.json(evidencia);
 
     } catch (error) {
@@ -111,6 +124,12 @@ export const eliminarEvidencia = async (req, res) => {
             });
 
         }
+
+        await registrarAuditoria(
+            req.usuario.id,
+            "Eliminación de evidencia",
+            `Se ha eliminado la evidencia con ID: ${evidencia._id}.`
+        );
 
         res.json({
             mensaje: "Evidencia eliminada correctamente"

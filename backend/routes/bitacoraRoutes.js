@@ -23,7 +23,7 @@ router.get("/", auth, authorize("Administrador"), obtenerBitacoras);
 
 router.get("/:id", auth, validarIdBitacora, validarCampos, authorize("Administrador"), obtenerBitacoraPorId);
 
-router.post("/", auth, validarCrearBitacora, validarCampos, crearBitacora);
+router.post("/", auth,  validarCrearBitacora, validarCampos, authorize("Administrador"),crearBitacora);
 
 router.put("/:id", auth, validarIdBitacora, validarActualizarBitacora, validarCampos, authorize("Administrador"), actualizarBitacora);
 

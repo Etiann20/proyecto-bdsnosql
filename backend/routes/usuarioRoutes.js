@@ -25,7 +25,7 @@ const router = express.Router();
 
 router.get("/", auth, authorize("Administrador"), obtenerUsuarios);
 
-router.get("/:id", auth, validarIdUsuario, authorize("Administrador"), validarCampos, obtenerUsuarioPorId);
+router.get("/:id", validarIdUsuario, auth, authorize("Administrador"), validarCampos, obtenerUsuarioPorId);
 
 router.post("/", auth, authorize("Administrador"), validarCrearUsuario, validarCampos,crearUsuario);
 

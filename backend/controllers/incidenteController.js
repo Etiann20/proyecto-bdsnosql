@@ -1,4 +1,6 @@
 import Incidente from "../models/Incidente.js";
+import { registrarAuditoria } from "../services/auditoriaService.js";
+
 
 // GET
 export const obtenerIncidentes = async (req, res) => {
@@ -80,6 +82,11 @@ export const crearIncidente = async (req,res)=>{
         const incidente=new Incidente(req.body);
 
         await incidente.save();
+        await registrarAuditoria(
+            req.usuario.id,
+            "Creación de incidente",
+            `Se ha creado un nuevo incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+        );
 
         res.status(201).json(incidente);
 
@@ -126,6 +133,12 @@ export const actualizarIncidente=async(req,res)=>{
 
         }
 
+        await registrarAuditoria(
+            req.usuario.id,
+            "Actualización de incidente",
+            `Se ha actualizado el incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+        );
+
         res.json(incidente);
 
     }catch(error){
@@ -156,6 +169,12 @@ export const eliminarIncidente=async(req,res)=>{
             });
 
         }
+
+        await registrarAuditoria(
+            req.usuario.id,
+            "Eliminación de incidente",
+            `Se ha eliminado el incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+        );
 
         res.json({
 

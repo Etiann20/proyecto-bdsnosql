@@ -1,5 +1,6 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
+import {registrarAuditoria} from "../services/auditoriaService.js";
 
 // GET /api/usuarios
 export const obtenerUsuarios = async (req, res) => {
@@ -66,6 +67,11 @@ export const crearUsuario = async (req, res) => {
         });
         
         await usuario.save();
+        await registrarAuditoria(
+            req.usuario.id,
+            "Creación de usuario",
+            `Se ha creado un nuevo usuario con correo: ${correo} (id: ${usuario._id}).`
+        );
         const usuarioCreado = await Usuario.findById(usuario._id).select("-contrasena"); // Excluir la contraseña de la respuesta
         res.status(201).json(usuarioCreado);
 
@@ -109,6 +115,12 @@ export const actualizarUsuario = async (req, res) => {
 
         }
 
+        await registrarAuditoria(
+            req.usuario.id,
+            "Actualización de usuario",
+            `Se ha actualizado el usuario con correo: ${usuario.correo} (ID: ${usuario._id}).`
+        );
+
         res.status(200).json(usuario);
 
     } catch (error) {
@@ -128,6 +140,7 @@ export const eliminarUsuario = async (req, res) => {
     try {
 
         const usuario = await Usuario.findByIdAndDelete(req.params.id);
+        
 
         if (!usuario) {
 
@@ -136,6 +149,12 @@ export const eliminarUsuario = async (req, res) => {
             });
 
         }
+        
+        await registrarAuditoria(
+            req.usuario.id,
+            "Eliminación de usuario",
+            `Se ha eliminado el usuario con correo: ${usuario.correo} (ID: ${usuario._id}).`
+        );
 
         res.status(200).json({
             mensaje: "Usuario eliminado correctamente"

@@ -2,7 +2,7 @@ import {body, param} from "express-validator";
 
 export const validarCrearEquipo = [
     body("nombre").trim().notEmpty().withMessage("El nombre del equipo es obligatorio"),
-    body("tipo").isIn(["Servidor", "Computador", "Router", "Firewall", "Switch", "Otro"]).withMessage("El tipo de equipo no es válido").withMessage("El tipo de equipo es obligatorio"),
+    body("tipo").notEmpty().withMessage("El tipo de equipo es obligatorio").isIn(["Servidor", "Computador", "Router", "Firewall", "Switch", "Otro"]).withMessage("El tipo de equipo no es válido"),
     body("ubicacion").trim().notEmpty().withMessage("La ubicación del equipo es obligatoria"),
     body("direccionIP").trim().notEmpty().withMessage("La direccion IP es obligatoria").isIP().withMessage("La direccion IP es inválida"),
     body("sistemaOperativo").trim().notEmpty().withMessage("El sistema operativo es obligatorio"),

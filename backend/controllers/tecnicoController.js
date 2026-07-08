@@ -1,4 +1,6 @@
 import Tecnico from "../models/Tecnico.js";
+import { registrarAuditoria } from "../services/auditoriaService.js";
+
 
 // GET
 export const obtenerTecnicos = async (req, res) => {
@@ -55,6 +57,11 @@ export const crearTecnico = async (req, res) => {
         const tecnico = new Tecnico(req.body);
 
         await tecnico.save();
+        await registrarAuditoria(
+            req.usuario.id,
+            "Creación de técnico",
+            `Se ha creado un nuevo técnico con nombre: ${tecnico.nombre} (ID: ${tecnico._id}).`
+        );
 
         res.status(201).json(tecnico);
 
@@ -93,6 +100,11 @@ export const actualizarTecnico = async (req, res) => {
             });
 
         }
+        await registrarAuditoria(
+            req.usuario.id,
+            "Actualización de técnico",
+            `Se ha actualizado el técnico con nombre: ${tecnico.nombre} (ID: ${tecnico._id}).`
+        );
 
         res.json(tecnico);
 
@@ -120,6 +132,11 @@ export const eliminarTecnico = async (req, res) => {
             });
 
         }
+        await registrarAuditoria(
+            req.usuario.id,
+            "Eliminación de técnico",
+            `Se ha eliminado el técnico con nombre: ${tecnico.nombre} (ID: ${tecnico._id}).`
+        );
 
         res.json({
             mensaje: "Técnico eliminado correctamente"
