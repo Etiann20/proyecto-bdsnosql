@@ -1,7 +1,6 @@
 import Incidente from "../models/Incidente.js";
 import { registrarAuditoria } from "../services/auditoriaService.js";
 
-
 // GET
 export const obtenerIncidentes = async (req, res) => {
 
@@ -54,7 +53,7 @@ export const obtenerIncidentePorId = async (req, res) => {
 
             return res.status(404).json({
 
-                mensaje:"Incidente no encontrado"
+                mensaje: "Incidente no encontrado"
 
             });
 
@@ -66,7 +65,7 @@ export const obtenerIncidentePorId = async (req, res) => {
 
         res.status(500).json({
 
-            mensaje:error.message
+            mensaje: error.message
 
         });
 
@@ -75,26 +74,27 @@ export const obtenerIncidentePorId = async (req, res) => {
 };
 
 // POST
-export const crearIncidente = async (req,res)=>{
+export const crearIncidente = async (req, res) => {
 
-    try{
+    try {
 
-        const incidente=new Incidente(req.body);
+        const incidente = new Incidente(req.body);
 
         await incidente.save();
+
         await registrarAuditoria(
             req.usuario.id,
             "Creación de incidente",
-            `Se ha creado un nuevo incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+            `Se creó el incidente "${incidente.titulo}".`
         );
 
         res.status(201).json(incidente);
 
-    }catch(error){
+    } catch (error) {
 
         res.status(400).json({
 
-            mensaje:error.message
+            mensaje: error.message
 
         });
 
@@ -103,11 +103,11 @@ export const crearIncidente = async (req,res)=>{
 };
 
 // PUT
-export const actualizarIncidente=async(req,res)=>{
+export const actualizarIncidente = async (req, res) => {
 
-    try{
+    try {
 
-        const incidente=await Incidente.findByIdAndUpdate(
+        const incidente = await Incidente.findByIdAndUpdate(
 
             req.params.id,
 
@@ -115,19 +115,19 @@ export const actualizarIncidente=async(req,res)=>{
 
             {
 
-                new:true,
+                new: true,
 
-                runValidators:true
+                runValidators: true
 
             }
 
         );
 
-        if(!incidente){
+        if (!incidente) {
 
             return res.status(404).json({
 
-                mensaje:"Incidente no encontrado"
+                mensaje: "Incidente no encontrado"
 
             });
 
@@ -136,16 +136,16 @@ export const actualizarIncidente=async(req,res)=>{
         await registrarAuditoria(
             req.usuario.id,
             "Actualización de incidente",
-            `Se ha actualizado el incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+            `Se actualizó el incidente "${incidente.titulo}".`
         );
 
         res.json(incidente);
 
-    }catch(error){
+    } catch (error) {
 
         res.status(400).json({
 
-            mensaje:error.message
+            mensaje: error.message
 
         });
 
@@ -154,17 +154,17 @@ export const actualizarIncidente=async(req,res)=>{
 };
 
 // DELETE
-export const eliminarIncidente=async(req,res)=>{
+export const eliminarIncidente = async (req, res) => {
 
-    try{
+    try {
 
-        const incidente=await Incidente.findByIdAndDelete(req.params.id);
+        const incidente = await Incidente.findByIdAndDelete(req.params.id);
 
-        if(!incidente){
+        if (!incidente) {
 
             return res.status(404).json({
 
-                mensaje:"Incidente no encontrado"
+                mensaje: "Incidente no encontrado"
 
             });
 
@@ -173,20 +173,20 @@ export const eliminarIncidente=async(req,res)=>{
         await registrarAuditoria(
             req.usuario.id,
             "Eliminación de incidente",
-            `Se ha eliminado el incidente "${incidente.titulo}" con ID: ${incidente._id}.`
+            `Se eliminó el incidente "${incidente.titulo}".`
         );
 
         res.json({
 
-            mensaje:"Incidente eliminado correctamente"
+            mensaje: "Incidente eliminado correctamente"
 
         });
 
-    }catch(error){
+    } catch (error) {
 
         res.status(500).json({
 
-            mensaje:error.message
+            mensaje: error.message
 
         });
 

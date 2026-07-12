@@ -36,7 +36,7 @@ export const login = async (req, res) => {
         await registrarAuditoria(
             usuario._id,
             "Inicio de sesión",
-            `El usuario con correo ${usuario.correo} (ID: ${usuario._id}) ha iniciado sesión.`
+            `${usuario.nombre} (${usuario.correo}) inició sesión.`
         );
 
         res.status(200).json({

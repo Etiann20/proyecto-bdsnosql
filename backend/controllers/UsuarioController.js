@@ -68,9 +68,13 @@ export const crearUsuario = async (req, res) => {
         
         await usuario.save();
         await registrarAuditoria(
+
             req.usuario.id,
+        
             "Creación de usuario",
-            `Se ha creado un nuevo usuario con correo: ${correo} (id: ${usuario._id}).`
+        
+            `Se creó el usuario "${nombre}" (${correo}).`
+        
         );
         const usuarioCreado = await Usuario.findById(usuario._id).select("-contrasena"); // Excluir la contraseña de la respuesta
         res.status(201).json(usuarioCreado);
@@ -118,7 +122,7 @@ export const actualizarUsuario = async (req, res) => {
         await registrarAuditoria(
             req.usuario.id,
             "Actualización de usuario",
-            `Se ha actualizado el usuario con correo: ${usuario.correo} (ID: ${usuario._id}).`
+            `Se actualizó el usuario "${usuario.nombre}" (${usuario.correo}).`
         );
 
         res.status(200).json(usuario);
@@ -153,7 +157,7 @@ export const eliminarUsuario = async (req, res) => {
         await registrarAuditoria(
             req.usuario.id,
             "Eliminación de usuario",
-            `Se ha eliminado el usuario con correo: ${usuario.correo} (ID: ${usuario._id}).`
+            `Se eliminó el usuario "${usuario.nombre}" (${usuario.correo}).`
         );
 
         res.status(200).json({

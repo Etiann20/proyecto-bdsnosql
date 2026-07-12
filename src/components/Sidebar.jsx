@@ -7,7 +7,8 @@ import {
     FiTool,
     FiUsers,
     FiShield,
-    FiDatabase
+    FiDatabase,
+    FiBookOpen
 } from "react-icons/fi";
 
 import "../styles/sidebar.css";
@@ -59,6 +60,11 @@ function Sidebar() {
                 <NavLink to="/usuarios">
                     <FiUsers/>
                     Usuarios
+                </NavLink>
+
+                <NavLink to="/bitacoras">
+                    <FiBookOpen/>
+                    Bitácora
                 </NavLink>
 
             </nav>

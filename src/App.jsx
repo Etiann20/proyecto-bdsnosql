@@ -7,6 +7,7 @@ import Usuarios from "./pages/Usuarios";
 import Tecnicos from "./pages/Tecnicos";
 import Equipos from "./pages/Equipos";
 import Incidentes from "./pages/Incidentes";
+import Bitacoras from "./pages/Bitacoras";
 import Login from "./pages/Login";
 
 function App() {
@@ -98,6 +99,22 @@ function App() {
                         <ProtectedRoute>
 
                             <Incidentes />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+                <Route
+
+                    path="/bitacoras"
+
+                    element={
+
+                        <ProtectedRoute>
+
+                            <Bitacoras />
 
                         </ProtectedRoute>
 
