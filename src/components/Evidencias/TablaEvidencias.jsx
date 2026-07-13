@@ -80,7 +80,7 @@ function TablaEvidencias({
 
                                 >
 
-                                    ✏ Editar
+                                    Editar
 
                                 </button>
 
@@ -90,7 +90,7 @@ function TablaEvidencias({
 
                                 >
 
-                                    🗑 Eliminar
+                                    Eliminar
 
                                 </button>
 

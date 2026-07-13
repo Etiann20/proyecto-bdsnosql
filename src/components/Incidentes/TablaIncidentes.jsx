@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function TablaIncidentes({
 
     incidentes,
@@ -7,6 +9,8 @@ function TablaIncidentes({
     onEliminar
 
 }) {
+
+    const [historial, setHistorial] = useState(null);
 
     if (incidentes.length === 0) {
 
@@ -20,99 +24,218 @@ function TablaIncidentes({
 
     return (
 
-        <table className="tabla-usuarios">
+        <>
 
-            <thead>
+            <table className="tabla-usuarios">
 
-                <tr>
+                <thead>
 
-                    <th>Título</th>
+                    <tr>
 
-                    <th>Prioridad</th>
+                        <th>Título</th>
 
-                    <th>Estado</th>
+                        <th>Prioridad</th>
 
-                    <th>Usuario</th>
+                        <th>Estado</th>
 
-                    <th>Técnico</th>
+                        <th>Usuario</th>
 
-                    <th>Equipo</th>
+                        <th>Técnico</th>
 
-                    <th>Evidencias</th>
+                        <th>Equipo</th>
 
-                    <th>Acciones</th>
+                        <th>Evidencias</th>
 
-                </tr>
+                        <th>Acciones</th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                {
+                <tbody>
 
-                    incidentes.map((incidente) => (
+                    {
 
-                        <tr key={incidente._id}>
+                        incidentes.map((incidente) => (
 
-                            <td>{incidente.titulo}</td>
+                            <tr key={incidente._id}>
 
-                            <td>{incidente.prioridad}</td>
+                                <td>{incidente.titulo}</td>
 
-                            <td>{incidente.estado}</td>
+                                <td>{incidente.prioridad}</td>
 
-                            <td>{incidente.usuario?.nombre}</td>
+                                <td>{incidente.estado}</td>
 
-                            <td>{incidente.tecnico?.nombre || "-"}</td>
+                                <td>{incidente.usuario?.nombre}</td>
 
-                            <td>{incidente.equipo?.nombre}</td>
+                                <td>{incidente.tecnico?.nombre || "-"}</td>
 
-                            <td>
+                                <td>{incidente.equipo?.nombre}</td>
 
-                                {
+                                <td>
 
-                                    incidente.evidencias && incidente.evidencias.length > 0
+                                    {
 
-                                        ? incidente.evidencias.map((evidencia) => (
+                                        incidente.evidencias && incidente.evidencias.length > 0
 
-                                            <div key={evidencia._id}>
+                                            ? incidente.evidencias.map((evidencia) => (
 
-                                                {evidencia.nombreArchivo}
+                                                <div key={evidencia._id}>
+
+                                                    {evidencia.nombreArchivo}
+
+                                                </div>
+
+                                            ))
+
+                                            : "-"
+
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <div className="acciones-incidente">
+
+                                        <button
+                                            onClick={() => onEditar(incidente)}
+                                        >
+                                            Editar
+                                        </button>
+
+                                        <button
+                                            onClick={() => onEliminar(incidente._id)}
+                                        >
+                                            Eliminar
+                                        </button>
+
+                                        <button
+                                            onClick={() => setHistorial(incidente)}
+                                        >
+                                            Historial
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        ))
+
+                    }
+
+                </tbody>
+
+            </table>
+
+            {
+
+                historial && (
+
+                    <div
+                        style={{
+                            position: "fixed",
+                            inset: 0,
+                            background: "rgba(0,0,0,.45)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            zIndex: 9999
+                        }}
+                    >
+
+                        <div
+                            style={{
+                                background: "#1f2937",
+                                color: "#fff",
+                                width: "650px",
+                                maxHeight: "80vh",
+                                overflowY: "auto",
+                                borderRadius: "10px",
+                                padding: "25px"
+                            }}
+                        >
+
+                            <h2>
+
+                                📜 Historial del Incidente
+
+                            </h2>
+
+                            <hr />
+
+                            {
+
+                                historial.bitacoras.length === 0
+
+                                    ? (
+
+                                        <p>
+
+                                            No existen registros.
+
+                                        </p>
+
+                                    )
+
+                                    : (
+
+                                        historial.bitacoras.map((evento, index) => (
+
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    borderLeft: "3px solid #3b82f6",
+                                                    paddingLeft: "15px",
+                                                    marginBottom: "18px"
+                                                }}
+                                            >
+
+                                                <strong>
+
+                                                    {new Date(evento.fecha).toLocaleString("es-CL")}
+
+                                                </strong>
+
+                                                <br />
+
+                                                👤 {evento.usuario}
+
+                                                <br />
+
+                                                {evento.accion}
 
                                             </div>
 
                                         ))
 
-                                        : "-"
+                                    )
 
-                                }
+                            }
 
-                            </td>
+                            <button
 
-                            <td>
+                                className="btn-guardar"
 
-                                <button
-                                    onClick={() => onEditar(incidente)}
-                                >
-                                    ✏ Editar
-                                </button>
+                                onClick={() => setHistorial(null)}
 
-                                <button
-                                    onClick={() => onEliminar(incidente._id)}
-                                >
-                                    🗑 Eliminar
-                                </button>
+                            >
 
-                            </td>
+                                Cerrar
 
-                        </tr>
+                            </button>
 
-                    ))
+                        </div>
 
-                }
+                    </div>
 
-            </tbody>
+                )
 
-        </table>
+            }
+
+        </>
 
     );
 

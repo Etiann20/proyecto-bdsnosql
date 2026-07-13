@@ -58,8 +58,20 @@ const incidenteSchema = new mongoose.Schema(
 
     bitacoras: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Bitacora",
+        fecha: {
+          type: Date,
+          default: Date.now,
+        },
+    
+        usuario: {
+          type: String,
+          required: true,
+        },
+    
+        accion: {
+          type: String,
+          required: true,
+        },
       },
     ],
   },

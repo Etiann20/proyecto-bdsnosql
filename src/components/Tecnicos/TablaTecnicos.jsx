@@ -63,13 +63,13 @@ function TablaTecnicos({
                             <button
                                 onClick={() => onEditar(tecnico)}
                             >
-                                ✏ Editar
+                                Editar
                             </button>
 
                             <button
                                 onClick={() => onEliminar(tecnico._id)}
                             >
-                                🗑 Eliminar
+                                Eliminar
                             </button>
 
                         </td>

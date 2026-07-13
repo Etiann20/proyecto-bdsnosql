@@ -49,13 +49,7 @@ function Login() {
             navigate("/");
 
         } catch (error) {
-
-            console.log(error);
-        
-            console.log(error.response);
-        
-            console.log(error.response?.data);
-        
+            
             setError(
                 error.response?.data?.mensaje ||
                 "No fue posible iniciar sesión."
@@ -76,7 +70,7 @@ function Login() {
 
                 <h2>
 
-                    Sistema Gestión Incidentes
+                    Sistema de Gestión de Incidentes
 
                 </h2>
 

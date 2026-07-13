@@ -7,7 +7,9 @@ export const obtenerUsuarios = async (req, res) => {
 
     try {
 
-        const usuarios = await Usuario.find().select("-contrasena");
+        const usuarios = await Usuario.find()
+        .select("-contrasena")
+        .sort({ createdAt: -1 });
 
         res.status(200).json(usuarios);
 

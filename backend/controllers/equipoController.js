@@ -6,7 +6,8 @@ export const obtenerEquipos = async (req, res) => {
 
     try {
 
-        const equipos = await Equipo.find();
+        const equipos = await Equipo.find()
+        .sort({ createdAt: -1 });
 
         res.status(200).json(equipos);
 

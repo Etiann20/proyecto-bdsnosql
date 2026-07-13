@@ -36,7 +36,15 @@
 
 .login-card h2{
 
-    text-align:center;
+    text-align: center;
+
+    color: #1e293b;
+
+    font-size: 1.8rem;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
 
 }
 

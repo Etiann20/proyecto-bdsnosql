@@ -1,5 +1,7 @@
 import Incidente from "../models/Incidente.js";
 import { registrarAuditoria } from "../services/auditoriaService.js";
+import { registrarHistorialIncidente } from "../services/historialIncidenteService.js";
+import Usuario from "../models/Usuario.js";
 
 // GET
 export const obtenerIncidentes = async (req, res) => {
@@ -7,6 +9,8 @@ export const obtenerIncidentes = async (req, res) => {
     try {
 
         const incidentes = await Incidente.find()
+
+            .sort({ createdAt: -1 })
 
             .populate("usuario")
 
@@ -78,9 +82,35 @@ export const crearIncidente = async (req, res) => {
 
     try {
 
-        const incidente = new Incidente(req.body);
+        console.log("BODY:", req.body);
+
+        const usuario = await Usuario.findById(req.usuario.id);
+
+        console.log("USUARIO:", usuario);
+
+        const incidente = new Incidente({
+
+            ...req.body,
+
+            bitacoras: [
+
+                {
+
+                    usuario: usuario.nombre,
+
+                    accion: "🟢 Incidente registrado"
+
+                }
+
+            ]
+
+        });
+
+        console.log("ANTES DEL SAVE");
 
         await incidente.save();
+
+        console.log("DESPUÉS DEL SAVE");
 
         await registrarAuditoria(
             req.usuario.id,
@@ -92,6 +122,9 @@ export const crearIncidente = async (req, res) => {
 
     } catch (error) {
 
+        console.error("ERROR CREANDO INCIDENTE:");
+        console.error(error);
+
         res.status(400).json({
 
             mensaje: error.message
@@ -102,26 +135,19 @@ export const crearIncidente = async (req, res) => {
 
 };
 
+
 // PUT
 export const actualizarIncidente = async (req, res) => {
 
     try {
 
-        const incidente = await Incidente.findByIdAndUpdate(
+        const incidente = await Incidente.findById(req.params.id)
 
-            req.params.id,
+            .populate("tecnico")
 
-            req.body,
+            .populate("equipo")
 
-            {
-
-                new: true,
-
-                runValidators: true
-
-            }
-
-        );
+            .populate("evidencias");
 
         if (!incidente) {
 
@@ -132,6 +158,23 @@ export const actualizarIncidente = async (req, res) => {
             });
 
         }
+
+        await registrarHistorialIncidente(
+            incidente,
+            req.body,
+            req.usuario.id
+        );
+
+        incidente.titulo = req.body.titulo;
+        incidente.descripcion = req.body.descripcion;
+        incidente.prioridad = req.body.prioridad;
+        incidente.estado = req.body.estado;
+        incidente.usuario = req.body.usuario;
+        incidente.tecnico = req.body.tecnico;
+        incidente.equipo = req.body.equipo;
+        incidente.evidencias = req.body.evidencias;
+
+        await incidente.save();
 
         await registrarAuditoria(
             req.usuario.id,

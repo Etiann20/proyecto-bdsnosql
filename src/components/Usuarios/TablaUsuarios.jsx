@@ -51,13 +51,14 @@ function TablaUsuarios({
                         <button
                             onClick={() => onEditar(usuario)}
                         >
-                            ✏ Editar
+                            Editar
                         </button>
 
                             <button
                                 onClick={() => onEliminar(usuario._id)}
                             >
-                                🗑 Eliminar
+                                Eliminar
+
                             </button>
 
                         </td>

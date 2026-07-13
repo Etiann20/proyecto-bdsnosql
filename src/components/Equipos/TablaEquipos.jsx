@@ -52,13 +52,13 @@ function TablaEquipos({
                             <button
                                 onClick={() => onEditar(equipo)}
                             >
-                                ✏ Editar
+                                Editar
                             </button>
 
                             <button
                                 onClick={() => onEliminar(equipo._id)}
                             >
-                                🗑 Eliminar
+                                Eliminar
                             </button>
 
                         </td>

@@ -75,39 +75,41 @@ function Incidentes() {
     const editarIncidente = async (incidente) => {
 
         try {
-
+    
             await api.put(`/incidentes/${incidente._id}`, incidente);
-
+    
             obtenerIncidentes();
-
+    
             setIncidenteEditando(null);
-
+    
             return {
-
+    
                 ok: true
-
+    
             };
-
+    
         } catch (error) {
-
+    
+            console.error(error.response?.data);
+    
             console.error(error);
-
+    
             return {
-
+    
                 ok: false,
-
+    
                 mensaje:
-
+    
                     error.response?.data?.errores?.[0]?.msg ||
-
+    
                     error.response?.data?.mensaje ||
-
+    
                     "No fue posible actualizar el incidente."
-
+    
             };
-
+    
         }
-
+    
     };
 
     const eliminarIncidente = async (id) => {

@@ -6,7 +6,8 @@ export const obtenerTecnicos = async (req, res) => {
 
     try {
 
-        const tecnicos = await Tecnico.find();
+        const tecnicos = await Tecnico.find()
+        .sort({ createdAt: -1 });
 
         res.status(200).json(tecnicos);
 
