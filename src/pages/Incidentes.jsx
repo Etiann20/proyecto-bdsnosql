@@ -44,11 +44,29 @@ function Incidentes() {
 
             obtenerIncidentes();
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
 
-            alert("No fue posible registrar el incidente.");
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible registrar el incidente."
+
+            };
 
         }
 
@@ -64,9 +82,29 @@ function Incidentes() {
 
             setIncidenteEditando(null);
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
+
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible actualizar el incidente."
+
+            };
 
         }
 
@@ -97,18 +135,29 @@ function Incidentes() {
             <HeaderIncidentes />
 
             <FormularioIncidente
+
                 onGuardar={
+
                     incidenteEditando
+
                         ? editarIncidente
+
                         : crearIncidente
+
                 }
+
                 incidenteEditando={incidenteEditando}
+
             />
 
             <TablaIncidentes
+
                 incidentes={incidentes}
+
                 onEditar={setIncidenteEditando}
+
                 onEliminar={eliminarIncidente}
+
             />
 
         </Layout>

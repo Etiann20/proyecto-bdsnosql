@@ -12,6 +12,9 @@ function FormularioIncidente({
     const [usuarios, setUsuarios] = useState([]);
     const [tecnicos, setTecnicos] = useState([]);
     const [equipos, setEquipos] = useState([]);
+    const [evidencias, setEvidencias] = useState([]);
+
+    const [error, setError] = useState("");
 
     const [formulario, setFormulario] = useState({
 
@@ -27,7 +30,9 @@ function FormularioIncidente({
 
         tecnico: "",
 
-        equipo: ""
+        equipo: "",
+
+        evidencias: []
 
     });
 
@@ -57,7 +62,19 @@ function FormularioIncidente({
 
                 tecnico: incidenteEditando.tecnico?._id || "",
 
-                equipo: incidenteEditando.equipo?._id || ""
+                equipo: incidenteEditando.equipo?._id || "",
+
+                evidencias:
+
+                    incidenteEditando.evidencias
+
+                        ? incidenteEditando.evidencias.map(
+
+                            evidencia => evidencia._id
+
+                        )
+
+                        : []
 
             });
 
@@ -77,11 +94,15 @@ function FormularioIncidente({
 
                 tecnico: "",
 
-                equipo: ""
+                equipo: "",
+
+                evidencias: []
 
             });
 
         }
+
+        setError("");
 
     }, [incidenteEditando]);
 
@@ -92,10 +113,12 @@ function FormularioIncidente({
             const usuariosRes = await api.get("/usuarios");
             const tecnicosRes = await api.get("/tecnicos");
             const equiposRes = await api.get("/equipos");
+            const evidenciasRes = await api.get("/evidencias");
 
             setUsuarios(usuariosRes.data);
             setTecnicos(tecnicosRes.data);
             setEquipos(equiposRes.data);
+            setEvidencias(evidenciasRes.data);
 
         } catch (error) {
 
@@ -107,21 +130,55 @@ function FormularioIncidente({
 
     const handleChange = (e) => {
 
+        const { name, value, options } = e.target;
+
+        if (name === "evidencias") {
+
+            const seleccionadas = Array
+
+                .from(options)
+
+                .filter(opcion => opcion.selected)
+
+                .map(opcion => opcion.value);
+
+            setFormulario({
+
+                ...formulario,
+
+                evidencias: seleccionadas
+
+            });
+
+            return;
+
+        }
+
         setFormulario({
 
             ...formulario,
 
-            [e.target.name]: e.target.value
+            [name]: value
 
         });
 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        onGuardar(formulario);
+        setError("");
+
+        const resultado = await onGuardar(formulario);
+
+        if (!resultado.ok) {
+
+            setError(resultado.mensaje);
+
+            return;
+
+        }
 
         setFormulario({
 
@@ -137,7 +194,9 @@ function FormularioIncidente({
 
             tecnico: "",
 
-            equipo: ""
+            equipo: "",
+
+            evidencias: []
 
         });
 
@@ -227,18 +286,22 @@ function FormularioIncidente({
 
                     <option value="">Seleccione</option>
 
-                    {usuarios.map((usuario) => (
+                    {
 
-                        <option
-                            key={usuario._id}
-                            value={usuario._id}
-                        >
+                        usuarios.map((usuario) => (
 
-                            {usuario.nombre}
+                            <option
+                                key={usuario._id}
+                                value={usuario._id}
+                            >
 
-                        </option>
+                                {usuario.nombre}
 
-                    ))}
+                            </option>
+
+                        ))
+
+                    }
 
                 </select>
 
@@ -256,18 +319,22 @@ function FormularioIncidente({
 
                     <option value="">Seleccione</option>
 
-                    {tecnicos.map((tecnico) => (
+                    {
 
-                        <option
-                            key={tecnico._id}
-                            value={tecnico._id}
-                        >
+                        tecnicos.map((tecnico) => (
 
-                            {tecnico.nombre}
+                            <option
+                                key={tecnico._id}
+                                value={tecnico._id}
+                            >
 
-                        </option>
+                                {tecnico.nombre}
 
-                    ))}
+                            </option>
+
+                        ))
+
+                    }
 
                 </select>
 
@@ -286,39 +353,108 @@ function FormularioIncidente({
 
                     <option value="">Seleccione</option>
 
-                    {equipos.map((equipo) => (
+                    {
 
-                        <option
-                            key={equipo._id}
-                            value={equipo._id}
-                        >
+                        equipos.map((equipo) => (
 
-                            {equipo.nombre}
+                            <option
+                                key={equipo._id}
+                                value={equipo._id}
+                            >
 
-                        </option>
+                                {equipo.nombre}
 
-                    ))}
+                            </option>
+
+                        ))
+
+                    }
 
                 </select>
 
             </div>
 
-            <button
-                className="btn-guardar"
-                type="submit"
-            >
+            <div className="form-group-full">
 
-                {
+                <label>Evidencias</label>
 
-                    incidenteEditando
+                <select
 
-                        ? "Actualizar Incidente"
+                    name="evidencias"
 
-                        : "Registrar Incidente"
+                    multiple
 
-                }
+                    value={formulario.evidencias}
 
-            </button>
+                    onChange={handleChange}
+
+                >
+
+                    {
+
+                        evidencias.map((evidencia) => (
+
+                            <option
+
+                                key={evidencia._id}
+
+                                value={evidencia._id}
+
+                            >
+
+                                {evidencia.nombreArchivo}
+
+                            </option>
+
+                        ))
+
+                    }
+
+                </select>
+
+                <small>
+
+                    Puede seleccionar varias evidencias manteniendo presionada la tecla Ctrl.
+
+                </small>
+
+            </div>
+
+            {
+
+                error &&
+
+                <p className="form-error">
+
+                    ❌ {error}
+
+                </p>
+
+            }
+
+            <div className="form-actions">
+
+                <button
+
+                    className="btn-guardar"
+
+                    type="submit"
+
+                >
+
+                    {
+
+                        incidenteEditando
+
+                            ? "Actualizar Incidente"
+
+                            : "Registrar Incidente"
+
+                    }
+
+                </button>
+
+            </div>
 
         </form>
 

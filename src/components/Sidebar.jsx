@@ -8,13 +8,24 @@ import {
     FiUsers,
     FiShield,
     FiDatabase,
+    FiPaperclip,
     FiBookOpen
 } from "react-icons/fi";
 
 import "../styles/sidebar.css";
 
 function Sidebar() {
+
+    const usuario = JSON.parse(
+
+        localStorage.getItem("usuario")
+
+    );
+
+    const rol = usuario?.rol;
+
     return (
+
         <aside className="sidebar">
 
             <div className="logo">
@@ -38,34 +49,75 @@ function Sidebar() {
             <nav>
 
                 <NavLink to="/">
+
                     <FiHome/>
+
                     Dashboard
+
                 </NavLink>
 
                 <NavLink to="/incidentes">
+
                     <FiAlertTriangle/>
+
                     Incidentes
+
                 </NavLink>
 
-                <NavLink to="/equipos">
-                    <FiMonitor/>
-                    Equipos
-                </NavLink>
+                {(rol === "Administrador" || rol === "Supervisor") && (
 
-                <NavLink to="/tecnicos">
-                    <FiTool/>
-                    Técnicos
-                </NavLink>
+                    <>
+                        <NavLink to="/equipos">
 
-                <NavLink to="/usuarios">
-                    <FiUsers/>
-                    Usuarios
-                </NavLink>
+                            <FiMonitor/>
 
-                <NavLink to="/bitacoras">
-                    <FiBookOpen/>
-                    Bitácora
-                </NavLink>
+                            Equipos
+
+                        </NavLink>
+
+                        <NavLink to="/tecnicos">
+
+                            <FiTool/>
+
+                            Técnicos
+
+                        </NavLink>
+
+                        <NavLink to="/evidencias">
+
+                            <FiPaperclip/>
+
+                            Evidencias
+
+                        </NavLink>
+
+                    </>
+
+                )}
+
+                {rol === "Administrador" && (
+
+                    <NavLink to="/usuarios">
+
+                        <FiUsers/>
+
+                        Usuarios
+
+                    </NavLink>
+
+                )}
+
+                {(rol === "Administrador" || rol === "Supervisor") && (
+
+                    <NavLink to="/bitacoras">
+
+                        <FiBookOpen/>
+
+                        Bitácora
+
+                    </NavLink>
+
+                )}
 
             </nav>
 
@@ -88,7 +140,9 @@ function Sidebar() {
             </div>
 
         </aside>
+
     );
+
 }
 
 export default Sidebar;

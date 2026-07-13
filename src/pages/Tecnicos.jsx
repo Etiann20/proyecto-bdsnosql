@@ -44,11 +44,27 @@ function Tecnicos() {
 
             obtenerTecnicos();
 
+            return {
+                ok: true
+            };
+
         } catch (error) {
 
             console.error(error);
 
-            alert("No fue posible crear el técnico.");
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible crear el técnico."
+
+            };
 
         }
 
@@ -64,9 +80,27 @@ function Tecnicos() {
 
             setTecnicoEditando(null);
 
+            return {
+                ok: true
+            };
+
         } catch (error) {
 
             console.error(error);
+
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible actualizar."
+
+            };
 
         }
 

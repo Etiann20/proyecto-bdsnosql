@@ -1,13 +1,13 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
-import {registrarAuditoria} from "../services/auditoriaService.js";
+import { registrarAuditoria } from "../services/auditoriaService.js";
 
 // GET /api/usuarios
 export const obtenerUsuarios = async (req, res) => {
 
     try {
 
-        const usuarios = await Usuario.find().select("-contrasena"); // Excluir la contraseña de la respuesta
+        const usuarios = await Usuario.find().select("-contrasena");
 
         res.status(200).json(usuarios);
 
@@ -26,7 +26,8 @@ export const obtenerUsuarios = async (req, res) => {
 export const obtenerUsuarioPorId = async (req, res) => {
 
     try {
-        const usuario = await Usuario.findById(req.params.id).select("-contrasena"); // Excluir la contraseña de la respuesta
+
+        const usuario = await Usuario.findById(req.params.id).select("-contrasena");
 
         if (!usuario) {
 
@@ -53,37 +54,59 @@ export const obtenerUsuarioPorId = async (req, res) => {
 export const crearUsuario = async (req, res) => {
 
     try {
-        const {nombre, correo, contrasena, rol} = req.body;
 
-        // Hashear la contraseña
+        const { nombre, correo, contrasena, rol } = req.body;
+
         const saltRounds = 10;
+
         const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
 
         const usuario = new Usuario({
+
             nombre,
+
             correo,
+
             contrasena: hashedPassword,
+
             rol
+
         });
-        
+
         await usuario.save();
+
         await registrarAuditoria(
 
             req.usuario.id,
-        
+
             "Creación de usuario",
-        
+
             `Se creó el usuario "${nombre}" (${correo}).`
-        
+
         );
-        const usuarioCreado = await Usuario.findById(usuario._id).select("-contrasena"); // Excluir la contraseña de la respuesta
+
+        const usuarioCreado = await Usuario.findById(usuario._id).select("-contrasena");
+
         res.status(201).json(usuarioCreado);
 
     } catch (error) {
 
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                mensaje: "El correo ya está registrado."
+
+            });
+
+        }
+
         res.status(400).json({
+
             mensaje: "No fue posible crear el usuario",
+
             error: error.message
+
         });
 
     }
@@ -94,8 +117,17 @@ export const crearUsuario = async (req, res) => {
 export const actualizarUsuario = async (req, res) => {
 
     try {
-        if(req.body.contrasena){
-            req.body.contrasena = await bcrypt.hash(req.body.contrasena,10)
+
+        if (req.body.contrasena) {
+
+            req.body.contrasena = await bcrypt.hash(
+
+                req.body.contrasena,
+
+                10
+
+            );
+
         }
 
         const usuario = await Usuario.findByIdAndUpdate(
@@ -105,33 +137,55 @@ export const actualizarUsuario = async (req, res) => {
             req.body,
 
             {
+
                 new: true,
+
                 runValidators: true
+
             }
 
-        ).select("-contrasena"); // Excluir la contraseña de la respuesta
+        ).select("-contrasena");
 
         if (!usuario) {
 
             return res.status(404).json({
+
                 mensaje: "Usuario no encontrado"
+
             });
 
         }
 
         await registrarAuditoria(
+
             req.usuario.id,
+
             "Actualización de usuario",
+
             `Se actualizó el usuario "${usuario.nombre}" (${usuario.correo}).`
+
         );
 
         res.status(200).json(usuario);
 
     } catch (error) {
 
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                mensaje: "El correo ya está registrado."
+
+            });
+
+        }
+
         res.status(400).json({
-            mensaje: "No fue posible actualizar",
+
+            mensaje: "No fue posible actualizar el usuario",
+
             error: error.message
+
         });
 
     }
@@ -144,31 +198,41 @@ export const eliminarUsuario = async (req, res) => {
     try {
 
         const usuario = await Usuario.findByIdAndDelete(req.params.id);
-        
 
         if (!usuario) {
 
             return res.status(404).json({
+
                 mensaje: "Usuario no encontrado"
+
             });
 
         }
-        
+
         await registrarAuditoria(
+
             req.usuario.id,
+
             "Eliminación de usuario",
+
             `Se eliminó el usuario "${usuario.nombre}" (${usuario.correo}).`
+
         );
 
         res.status(200).json({
+
             mensaje: "Usuario eliminado correctamente"
+
         });
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: "Error al eliminar",
+
             error: error.message
+
         });
 
     }

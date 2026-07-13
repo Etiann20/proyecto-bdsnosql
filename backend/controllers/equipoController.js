@@ -57,17 +57,33 @@ export const crearEquipo = async (req, res) => {
         await equipo.save();
 
         await registrarAuditoria(
+
             req.usuario.id,
+
             "Creación de equipo",
+
             `Se creó el equipo "${equipo.nombre}".`
+
         );
 
         res.status(201).json(equipo);
 
     } catch (error) {
 
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                mensaje: "La dirección IP ya está registrada."
+
+            });
+
+        }
+
         res.status(400).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -86,8 +102,11 @@ export const actualizarEquipo = async (req, res) => {
             req.body,
 
             {
+
                 new: true,
+
                 runValidators: true
+
             }
 
         );
@@ -95,23 +114,41 @@ export const actualizarEquipo = async (req, res) => {
         if (!equipo) {
 
             return res.status(404).json({
+
                 mensaje: "Equipo no encontrado"
+
             });
 
         }
 
         await registrarAuditoria(
+
             req.usuario.id,
+
             "Actualización de equipo",
+
             `Se actualizó el equipo "${equipo.nombre}".`
+
         );
 
         res.json(equipo);
 
     } catch (error) {
 
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                mensaje: "La dirección IP ya está registrada."
+
+            });
+
+        }
+
         res.status(400).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -128,25 +165,35 @@ export const eliminarEquipo = async (req, res) => {
         if (!equipo) {
 
             return res.status(404).json({
+
                 mensaje: "Equipo no encontrado"
+
             });
 
         }
 
         await registrarAuditoria(
+
             req.usuario.id,
+
             "Eliminación de equipo",
+
             `Se eliminó el equipo "${equipo.nombre}".`
+
         );
 
         res.json({
+
             mensaje: "Equipo eliminado correctamente"
+
         });
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }

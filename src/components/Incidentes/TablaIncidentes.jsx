@@ -38,6 +38,8 @@ function TablaIncidentes({
 
                     <th>Equipo</th>
 
+                    <th>Evidencias</th>
+
                     <th>Acciones</th>
 
                 </tr>
@@ -46,41 +48,67 @@ function TablaIncidentes({
 
             <tbody>
 
-                {incidentes.map((incidente) => (
+                {
 
-                    <tr key={incidente._id}>
+                    incidentes.map((incidente) => (
 
-                        <td>{incidente.titulo}</td>
+                        <tr key={incidente._id}>
 
-                        <td>{incidente.prioridad}</td>
+                            <td>{incidente.titulo}</td>
 
-                        <td>{incidente.estado}</td>
+                            <td>{incidente.prioridad}</td>
 
-                        <td>{incidente.usuario?.nombre}</td>
+                            <td>{incidente.estado}</td>
 
-                        <td>{incidente.tecnico?.nombre || "-"}</td>
+                            <td>{incidente.usuario?.nombre}</td>
 
-                        <td>{incidente.equipo?.nombre}</td>
+                            <td>{incidente.tecnico?.nombre || "-"}</td>
 
-                        <td>
+                            <td>{incidente.equipo?.nombre}</td>
 
-                            <button
-                                onClick={() => onEditar(incidente)}
-                            >
-                                ✏ Editar
-                            </button>
+                            <td>
 
-                            <button
-                                onClick={() => onEliminar(incidente._id)}
-                            >
-                                🗑 Eliminar
-                            </button>
+                                {
 
-                        </td>
+                                    incidente.evidencias && incidente.evidencias.length > 0
 
-                    </tr>
+                                        ? incidente.evidencias.map((evidencia) => (
 
-                ))}
+                                            <div key={evidencia._id}>
+
+                                                {evidencia.nombreArchivo}
+
+                                            </div>
+
+                                        ))
+
+                                        : "-"
+
+                                }
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    onClick={() => onEditar(incidente)}
+                                >
+                                    ✏ Editar
+                                </button>
+
+                                <button
+                                    onClick={() => onEliminar(incidente._id)}
+                                >
+                                    🗑 Eliminar
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    ))
+
+                }
 
             </tbody>
 

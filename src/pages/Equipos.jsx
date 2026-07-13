@@ -44,11 +44,29 @@ function Equipos() {
 
             obtenerEquipos();
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
 
-            alert("No fue posible crear el equipo.");
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible crear el equipo."
+
+            };
 
         }
 
@@ -64,9 +82,29 @@ function Equipos() {
 
             setEquipoEditando(null);
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
+
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible actualizar el equipo."
+
+            };
 
         }
 
@@ -97,18 +135,29 @@ function Equipos() {
             <HeaderEquipos />
 
             <FormularioEquipo
+
                 onGuardar={
+
                     equipoEditando
+
                         ? editarEquipo
+
                         : crearEquipo
+
                 }
+
                 equipoEditando={equipoEditando}
+
             />
 
             <TablaEquipos
+
                 equipos={equipos}
+
                 onEditar={setEquipoEditando}
+
                 onEliminar={eliminarEquipo}
+
             />
 
         </Layout>

@@ -9,6 +9,7 @@ import Equipos from "./pages/Equipos";
 import Incidentes from "./pages/Incidentes";
 import Bitacoras from "./pages/Bitacoras";
 import Login from "./pages/Login";
+import Evidencias from "./pages/Evidencias";
 
 function App() {
 
@@ -32,7 +33,13 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor",
+                                "Analista"
+                            ]}
+                        >
 
                             <Home />
 
@@ -48,7 +55,11 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador"
+                            ]}
+                        >
 
                             <Usuarios />
 
@@ -64,7 +75,12 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor"
+                            ]}
+                        >
 
                             <Tecnicos />
 
@@ -80,7 +96,12 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor"
+                            ]}
+                        >
 
                             <Equipos />
 
@@ -96,7 +117,13 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor",
+                                "Analista"
+                            ]}
+                        >
 
                             <Incidentes />
 
@@ -112,9 +139,35 @@ function App() {
 
                     element={
 
-                        <ProtectedRoute>
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor"
+                            ]}
+                        >
 
                             <Bitacoras />
+
+                        </ProtectedRoute>
+
+                    }
+
+                />
+
+                <Route
+
+                    path="/evidencias"
+
+                    element={
+
+                        <ProtectedRoute
+                            roles={[
+                                "Administrador",
+                                "Supervisor"
+                            ]}
+                        >
+
+                            <Evidencias />
 
                         </ProtectedRoute>
 

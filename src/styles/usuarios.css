@@ -108,8 +108,6 @@
 
     gap:20px;
 
-    align-items:flex-end;
-
 }
 
 .form-group{
@@ -117,6 +115,8 @@
     display:flex;
 
     flex-direction:column;
+
+    flex:1;
 
     min-width:220px;
 
@@ -185,5 +185,97 @@
 .btn-guardar:hover{
 
     background:#1d4ed8;
+
+}
+
+/* ==========================================
+   FORMULARIO INCIDENTES
+========================================== */
+
+.form-group-full{
+
+    width:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group-full select{
+
+    width:40%;
+
+    min-width:320px;
+
+    max-width:450px;
+
+    height:140px;
+
+    padding:12px;
+
+    border:1px solid #334155;
+
+    border-radius:8px;
+
+    background:#0f172a;
+
+    color:white;
+
+    font-size:14px;
+
+}
+
+.form-group-full small{
+
+    width:40%;
+
+    min-width:320px;
+
+    max-width:450px;
+
+    margin-top:8px;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+.form-actions{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:10px;
+
+}
+
+/* ===========================
+   MENSAJES DE ERROR
+=========================== */
+
+.form-error{
+
+    width:100%;
+
+    margin:0;
+
+    padding:12px 16px;
+
+    border-radius:8px;
+
+    background:rgba(239,68,68,.12);
+
+    border:1px solid rgba(239,68,68,.35);
+
+    color:#ef4444;
+
+    font-weight:600;
+
+    font-size:14px;
 
 }

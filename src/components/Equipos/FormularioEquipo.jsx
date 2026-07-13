@@ -9,13 +9,22 @@ function FormularioEquipo({
 }) {
 
     const [formulario, setFormulario] = useState({
+
         nombre: "",
-        tipo: "Servidor",
+
+        tipo: "Computador",
+
         ubicacion: "",
+
         direccionIP: "",
+
         sistemaOperativo: "",
+
         estado: "Operativo"
+
     });
+
+    const [error, setError] = useState("");
 
     useEffect(() => {
 
@@ -45,7 +54,7 @@ function FormularioEquipo({
 
                 nombre: "",
 
-                tipo: "Servidor",
+                tipo: "Computador",
 
                 ubicacion: "",
 
@@ -58,6 +67,8 @@ function FormularioEquipo({
             });
 
         }
+
+        setError("");
 
     }, [equipoEditando]);
 
@@ -73,17 +84,27 @@ function FormularioEquipo({
 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        onGuardar(formulario);
+        setError("");
+
+        const resultado = await onGuardar(formulario);
+
+        if (!resultado.ok) {
+
+            setError(resultado.mensaje);
+
+            return;
+
+        }
 
         setFormulario({
 
             nombre: "",
 
-            tipo: "Servidor",
+            tipo: "Computador",
 
             ubicacion: "",
 
@@ -162,6 +183,7 @@ function FormularioEquipo({
                     name="direccionIP"
                     value={formulario.direccionIP}
                     onChange={handleChange}
+                    placeholder="192.168.1.10"
                     required
                 />
 
@@ -191,15 +213,33 @@ function FormularioEquipo({
                     onChange={handleChange}
                 >
 
-                    <option value="Operativo">Operativo</option>
+                    <option value="Operativo">
+                        Operativo
+                    </option>
 
-                    <option value="En Mantención">En Mantención</option>
+                    <option value="En Mantención">
+                        En Mantención
+                    </option>
 
-                    <option value="Fuera de Servicio">Fuera de Servicio</option>
+                    <option value="Fuera de Servicio">
+                        Fuera de Servicio
+                    </option>
 
                 </select>
 
             </div>
+
+            {
+
+                error &&
+
+                <p className="form-error">
+
+                    ❌ {error}
+
+                </p>
+
+            }
 
             <button
                 className="btn-guardar"

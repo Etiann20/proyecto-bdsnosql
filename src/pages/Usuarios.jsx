@@ -30,8 +30,6 @@ function Usuarios() {
 
             console.error(error);
 
-            alert("No fue posible obtener los usuarios.");
-
         }
 
     };
@@ -44,11 +42,29 @@ function Usuarios() {
 
             obtenerUsuarios();
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
 
-            alert("Error al crear el usuario.");
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible crear el usuario."
+
+            };
 
         }
 
@@ -64,11 +80,29 @@ function Usuarios() {
 
             setUsuarioEditando(null);
 
+            return {
+
+                ok: true
+
+            };
+
         } catch (error) {
 
             console.error(error);
 
-            alert("Error al actualizar el usuario.");
+            return {
+
+                ok: false,
+
+                mensaje:
+
+                    error.response?.data?.errores?.[0]?.msg ||
+
+                    error.response?.data?.mensaje ||
+
+                    "No fue posible actualizar el usuario."
+
+            };
 
         }
 
@@ -76,11 +110,7 @@ function Usuarios() {
 
     const eliminarUsuario = async (id) => {
 
-        const confirmar = window.confirm(
-            "¿Desea eliminar este usuario?"
-        );
-
-        if (!confirmar) return;
+        if (!window.confirm("¿Desea eliminar este usuario?")) return;
 
         try {
 
@@ -91,8 +121,6 @@ function Usuarios() {
         } catch (error) {
 
             console.error(error);
-
-            alert("No fue posible eliminar el usuario.");
 
         }
 
@@ -107,20 +135,31 @@ function Usuarios() {
             <div style={{ marginBottom: "20px" }}>
 
                 <FormularioUsuario
+
                     onGuardar={
+
                         usuarioEditando
+
                             ? editarUsuario
+
                             : crearUsuario
+
                     }
+
                     usuarioEditando={usuarioEditando}
+
                 />
 
             </div>
 
             <TablaUsuarios
+
                 usuarios={usuarios}
+
                 onEditar={setUsuarioEditando}
+
                 onEliminar={eliminarUsuario}
+
             />
 
         </Layout>

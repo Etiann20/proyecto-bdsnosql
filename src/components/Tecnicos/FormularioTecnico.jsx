@@ -9,12 +9,20 @@ function FormularioTecnico({
 }) {
 
     const [formulario, setFormulario] = useState({
+
         nombre: "",
+
         correo: "",
+
         especialidad: "",
+
         telefono: "",
+
         estado: "Disponible"
+
     });
+
+    const [error, setError] = useState("");
 
     useEffect(() => {
 
@@ -54,6 +62,8 @@ function FormularioTecnico({
 
         }
 
+        setError("");
+
     }, [tecnicoEditando]);
 
     const handleChange = (e) => {
@@ -68,11 +78,21 @@ function FormularioTecnico({
 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        onGuardar(formulario);
+        setError("");
+
+        const resultado = await onGuardar(formulario);
+
+        if (!resultado.ok) {
+
+            setError(resultado.mensaje);
+
+            return;
+
+        }
 
         setFormulario({
 
@@ -148,7 +168,7 @@ function FormularioTecnico({
                     name="telefono"
                     value={formulario.telefono}
                     onChange={handleChange}
-                    placeholder="Ej. 56987654321 (sin +56)"
+                    placeholder="Ej. 56987654321"
                 />
 
             </div>
@@ -163,15 +183,33 @@ function FormularioTecnico({
                     onChange={handleChange}
                 >
 
-                    <option value="Disponible">Disponible</option>
+                    <option value="Disponible">
+                        Disponible
+                    </option>
 
-                    <option value="Ocupado">Ocupado</option>
+                    <option value="Ocupado">
+                        Ocupado
+                    </option>
 
-                    <option value="Ausente">Ausente</option>
+                    <option value="Ausente">
+                        Ausente
+                    </option>
 
                 </select>
 
             </div>
+
+            {
+
+                error &&
+
+                <p className="form-error">
+
+                    {error}
+
+                </p>
+
+            }
 
             <button
                 className="btn-guardar"

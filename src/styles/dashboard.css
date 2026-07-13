@@ -215,3 +215,103 @@
     margin-top:20px;
 
 }
+
+/* ===========================
+   CONSULTAS ANALÍTICAS
+=========================== */
+
+.analytics-container{
+
+    margin-top:30px;
+
+}
+
+.analytics-title{
+
+    color:#FFFFFF;
+
+    margin-bottom:20px;
+
+    font-size:24px;
+
+    font-weight:600;
+
+}
+
+.analytics-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.analytics-card{
+
+    background:#1F2937;
+
+    border:1px solid #374151;
+
+    border-radius:12px;
+
+    padding:24px;
+
+}
+
+.analytics-card h3{
+
+    color:#FFFFFF;
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+}
+
+.analytics-card p{
+
+    color:#D1D5DB;
+
+    font-size:16px;
+
+    margin:10px 0;
+
+    line-height:1.5;
+
+}
+
+.analytics-card ul{
+
+    list-style:none;
+
+    padding:0;
+
+    margin:0;
+
+}
+
+.analytics-card li{
+
+    padding:10px 0;
+
+    color:#D1D5DB;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.analytics-card li:last-child{
+
+    border-bottom:none;
+
+}
+
+.analytics-highlight{
+
+    color:#FFFFFF;
+
+    font-weight:700;
+
+}

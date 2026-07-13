@@ -1,6 +1,5 @@
 import Evidencia from "../models/Evidencia.js";
-import {registrarAuditoria} from "../services/auditoriaService.js";
-
+import { registrarAuditoria } from "../services/auditoriaService.js";
 
 // GET
 export const obtenerEvidencias = async (req, res) => {
@@ -52,6 +51,7 @@ export const crearEvidencia = async (req, res) => {
         const evidencia = new Evidencia(req.body);
 
         await evidencia.save();
+
         await registrarAuditoria(
             req.usuario.id,
             "Creación de evidencia",

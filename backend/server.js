@@ -13,6 +13,7 @@ import bitacoraRoutes from "./routes/bitacoraRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
+
 dotenv.config();
 
 connectDB();

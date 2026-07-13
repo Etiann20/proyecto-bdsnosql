@@ -20,6 +20,8 @@ function FormularioUsuario({
 
     });
 
+    const [error, setError] = useState("");
+
     useEffect(() => {
 
         if (usuarioEditando) {
@@ -54,6 +56,8 @@ function FormularioUsuario({
 
         }
 
+        setError("");
+
     }, [usuarioEditando]);
 
     const handleChange = (e) => {
@@ -68,9 +72,11 @@ function FormularioUsuario({
 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        setError("");
 
         const datos = { ...formulario };
 
@@ -80,15 +86,38 @@ function FormularioUsuario({
 
         }
 
-        onGuardar(datos);
+        const resultado = await onGuardar(datos);
+
+        if (!resultado.ok) {
+
+            setError(resultado.mensaje);
+
+            return;
+
+        }
+
+        setFormulario({
+
+            nombre: "",
+
+            correo: "",
+
+            contrasena: "",
+
+            rol: "Administrador"
+
+        });
 
     };
 
     return (
 
         <form
+
             className="formulario-usuario"
+
             onSubmit={handleSubmit}
+
         >
 
             <div className="form-group">
@@ -96,11 +125,17 @@ function FormularioUsuario({
                 <label>Nombre</label>
 
                 <input
+
                     type="text"
+
                     name="nombre"
+
                     value={formulario.nombre}
+
                     onChange={handleChange}
+
                     required
+
                 />
 
             </div>
@@ -110,34 +145,47 @@ function FormularioUsuario({
                 <label>Correo</label>
 
                 <input
+
                     type="email"
+
                     name="correo"
+
                     value={formulario.correo}
+
                     onChange={handleChange}
+
                     required
+
                 />
 
             </div>
 
             <div className="form-group">
 
-                <label>
-
-                    Contraseña
-
-                </label>
+                <label>Contraseña</label>
 
                 <input
+
                     type="password"
+
                     name="contrasena"
+
                     value={formulario.contrasena}
+
                     onChange={handleChange}
+
                     placeholder={
+
                         usuarioEditando
+
                             ? "Dejar vacío para mantener"
+
                             : "Ingrese contraseña"
+
                     }
+
                     required={!usuarioEditando}
+
                 />
 
             </div>
@@ -147,9 +195,13 @@ function FormularioUsuario({
                 <label>Rol</label>
 
                 <select
+
                     name="rol"
+
                     value={formulario.rol}
+
                     onChange={handleChange}
+
                 >
 
                     <option value="Administrador">
@@ -174,9 +226,24 @@ function FormularioUsuario({
 
             </div>
 
+            {
+
+                error &&
+
+                <p className="form-error">
+
+                    ❌ {error}
+
+                </p>
+
+            }
+
             <button
+
                 className="btn-guardar"
+
                 type="submit"
+
             >
 
                 {

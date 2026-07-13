@@ -6,7 +6,8 @@ export const obtenerBitacoras = async (req, res) => {
     try {
 
         const bitacoras = await Bitacora.find()
-            .populate("usuario");
+            .populate("usuario")
+            .sort({ createdAt: -1 });
 
         res.status(200).json(bitacoras);
 
