@@ -186,6 +186,12 @@ MongoDB Atlas
 
 ---
 
+### Jira 
+
+https://abrabgds.atlassian.net/jira/software/projects/PP/summary
+
+---
+
 ## Repositorio
 
 GitHub:
